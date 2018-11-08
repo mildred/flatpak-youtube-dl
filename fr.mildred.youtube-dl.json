@@ -1,0 +1,106 @@
+{
+    "app-id": "fr.mildred.youtube-dl",
+
+    "//": {
+        "runtime": "org.freedesktop.Platform",
+        "runtime-version": "18.08",
+        "sdk": "org.freedesktop.Sdk",
+        "disabled-because": "ffmpeg is needed"
+    },
+    "runtime": "org.gnome.Platform",
+    "runtime-version": "3.30",
+    "sdk": "org.gnome.Sdk",
+
+    "command": "youtube-dl",
+    "finish-args": [
+        "--share=network",
+        "--filesystem=home"
+    ],
+    "modules": [
+        {
+            "name": "ffmpeg",
+            "config-opts": [
+                "--disable-debug",
+                "--disable-static",
+                "--enable-gpl",
+                "--enable-libvpx",
+                "--enable-libx264",
+                "--enable-shared",
+                "--enable-libxcb",
+                "--enable-libxcb-xfixes",
+                "--disable-libxcb-shape",
+                "--disable-ffplay",
+                "--disable-ffprobe",
+                "--disable-ffserver",
+                "--disable-doc",
+                "--disable-everything",
+                "--enable-bsf=vp9_superframe",
+                "--enable-decoder=libvpx_vp9",
+                "--enable-decoder=png",
+                "--enable-decoder=rawvideo",
+                "--enable-encoder=apng",
+                "--enable-encoder=ffvhuff",
+                "--enable-encoder=gif",
+                "--enable-encoder=libvpx_vp9",
+                "--enable-encoder=libx264",
+                "--enable-encoder=png",
+                "--enable-demuxer=image2",
+                "--enable-demuxer=matroska",
+                "--enable-muxer=apng",
+                "--enable-muxer=gif",
+                "--enable-muxer=image2",
+                "--enable-muxer=mp4",
+                "--enable-muxer=webm",
+                "--enable-filter=crop",
+                "--enable-filter=fps",
+                "--enable-filter=palettegen",
+                "--enable-filter=paletteuse",
+                "--enable-filter=scale",
+                "--enable-protocol=file",
+                "--enable-indev=xcbgrab"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://ffmpeg.org/releases/ffmpeg-3.4.2.tar.xz",
+                    "sha256": "2b92e9578ef8b3e49eeab229e69305f5f4cbc1fdaa22e927fc7fca18acccd740"
+                }
+            ],
+            "modules": [
+                {
+                    "name": "libx264",
+                    "config-opts": [
+                        "--enable-pic",
+                        "--enable-shared",
+                        "--disable-asm"
+                    ],
+                    "sources": [
+                        {
+                            "type": "git",
+                            "url": "https://git.videolan.org/git/x264.git",
+                            "commit": "aaa9aa83a111ed6f1db253d5afa91c5fc844583f"
+                        }
+                    ],
+                    "cleanup": [
+                        "/bin/x264"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "youtube-dl",
+            "buildsystem": "simple",
+            "build-commands": [
+                "python3 setup.py install --prefix=/app"
+            ],
+            "sources": [
+                {
+                    "type":   "archive",
+                    "url":    "https://youtube-dl.org/downloads/latest/youtube-dl-2018.11.07.tar.gz",
+                    "sha512": "9bb552e1343d151c98aa20a91728d59cfea1ec24d838533af57a3d25c5ab4be7e1de2aac2e426632835a20ed0ef3516ce3c8cccdc9b0d2505bd1516d5b9e910d"
+                }
+            ]
+        }
+    ]
+}
+
